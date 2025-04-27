@@ -8,33 +8,43 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  SharedPreferenceService service = SharedPreferenceService();
-  bool state = false;
-  bool isUser = true;
+  final SharedPreferenceService _service = SharedPreferenceService();
 
-  wait() async {
-    var data = await service.getData('auth');
-    print(data);
-    isUser = data['role'] == 'user';
-    setState(() {
-      state = data.isEmpty;
-    });
-  }
+  bool _isLoading = true;
+  bool _isLoggedIn = false;
+  bool _isUser = true;
 
   @override
   void initState() {
     super.initState();
-    wait();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    try {
+      var data = await _service.getData('auth');
+      print(data);
+      if (data != null && data.isNotEmpty) {
+        _isUser = data['role'] == 'user';
+        _isLoggedIn = true;
+      }
+    } catch (e) {
+      print('Error checking login status: $e');
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -47,11 +57,11 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home:
-          state
-              ? LoginPage()
-              : isUser
-              ? HomePage()
-              : Adminmainpage(),
+          _isLoading
+              ? Scaffold(body: Center(child: CircularProgressIndicator()))
+              : _isLoggedIn
+              ? (_isUser ? HomePage() : Adminmainpage())
+              : LoginPage(),
     );
   }
 }

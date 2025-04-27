@@ -23,6 +23,26 @@ class FirebaseService {
     }
   }
 
+  // Statistikani olish
+  Future<Map<String, dynamic>> getDeviceStats() async {
+    var snapshot = await _firestore.collection('devices').get();
+    int activeCount = 0;
+    int waitCount = 0;
+    int rejectCount = 0;
+
+    snapshot.docs.forEach((doc) {
+      if (doc['state'] == 'active') {
+        activeCount++;
+      } else if (doc['state'] == 'wait') {
+        waitCount++;
+      } else if (doc['state'] == 'reject') {
+        rejectCount++;
+      }
+    });
+
+    return {'active': activeCount, 'wait': waitCount, 'reject': rejectCount};
+  }
+
   // Add Device to Firestore
   Future<void> addDevice({
     required String deviceName,

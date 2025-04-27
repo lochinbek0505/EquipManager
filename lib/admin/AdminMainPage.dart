@@ -1,5 +1,7 @@
 import 'package:equip_manager/admin/AdminPage.dart';
 import 'package:equip_manager/admin/RejectedActiveDevicesPage.dart';
+import 'package:equip_manager/admin/StatisPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Adminmainpage extends StatefulWidget {
@@ -10,7 +12,7 @@ class Adminmainpage extends StatefulWidget {
 }
 
 class _AdminmainpageState extends State<Adminmainpage> {
-  var pages = [AdminPage(), RejectedActiveDevicesPage()];
+  var pages = [AdminPage(), StatisPage(), RejectedActiveDevicesPage()];
   var selectIndex = 0;
 
   @override
@@ -20,6 +22,11 @@ class _AdminmainpageState extends State<Adminmainpage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ""),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.chart_bar_alt_fill),
+            label: "",
+          ),
+
           BottomNavigationBarItem(icon: Icon(Icons.history), label: ""),
         ],
         onTap: (Index) {
