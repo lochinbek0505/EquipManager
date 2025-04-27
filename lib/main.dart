@@ -1,42 +1,48 @@
+import 'package:equip_manager/admin/AdminMainPage.dart';
+import 'package:equip_manager/user/SharedPreferenceService.dart';
+import 'package:equip_manager/user/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'AuthService.dart';
-import 'home_page.dart';
-import 'login_page.dart';
-
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class MyApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthService(),
-      child: MaterialApp(
-        title: 'EquipFix',
-        debugShowCheckedModeBanner: false,
-        home: AuthWrapper(),
-      ),
-    );
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  SharedPreferenceService service = SharedPreferenceService();
+  bool state = false;
+
+  wait() async {
+    var data = await service.getData('auth');
+    setState(() {
+      state = data.isEmpty;
+    });
   }
-}
 
-class AuthWrapper extends StatelessWidget {
+  @override
+  void initState() {
+    super.initState();
+    wait();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-
-    if (authService.user != null) {
-      return HomePage();
-    } else {
-      return LoginPage();
-    }
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Device Management',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: state ? LoginPage() : Adminmainpage(),
+    );
   }
 }
