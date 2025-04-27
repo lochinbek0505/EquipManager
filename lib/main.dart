@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       if (data != null && data.isNotEmpty) {
         _isUser = data['role'] == 'user';
         _isLoggedIn = true;
+        setState(() {});
       }
     } catch (e) {
       print('Error checking login status: $e');

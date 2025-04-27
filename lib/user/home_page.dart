@@ -113,8 +113,6 @@ class _HomePageState extends State<HomePage> {
           var fio = "${data['firstName']} ${data['lastName']}";
 
           return ListView.builder(
-            shrinkWrap: false,
-            physics: NeverScrollableScrollPhysics(),
             itemCount: devices.length,
             itemBuilder: (context, index) {
               final device = devices[index];
@@ -134,85 +132,83 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                device['device_image'],
-                                width: double.infinity,
-                                height: 150,
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              device['device_image'],
+                              width: double.infinity,
+                              height: 150,
                             ),
-                            Text(
-                              device['device_name'],
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
+                          ),
+                          Text(
+                            device['device_name'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Тип: ${device['device_type']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Тип: ${device['device_type']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Расположение: ${device['location']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Расположение: ${device['location']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Серийный номер: ${device['serial_number']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Серийный номер: ${device['serial_number']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Производитель: ${device['manufacturer']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Производитель: ${device['manufacturer']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Дата покупки: ${device['purchase_date']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Дата покупки: ${device['purchase_date']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Добавил: ${device['author']}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Добавил: ${device['author']}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              'Состояние: ${texts[device['state']]}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: colors[device['state']],
-                              ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Состояние: ${texts[device['state']]}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: colors[device['state']],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
