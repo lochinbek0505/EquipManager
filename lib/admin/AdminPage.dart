@@ -11,7 +11,18 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   final FirebaseService _firebaseService = FirebaseService();
+  var colors = {
+    "reject": Colors.red,
 
+    "wait": Colors.yellowAccent,
+    "active": Colors.green,
+  };
+  var texts = {
+    "reject": "Отклоненный",
+
+    "wait": "Ожидающий",
+    "active": "Одобренный",
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +30,7 @@ class _AdminPageState extends State<AdminPage> {
         centerTitle: true,
         backgroundColor: Colors.blue,
         title: Text(
-          'Admin Panel',
+          'Панель Администратора',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -35,7 +46,7 @@ class _AdminPageState extends State<AdminPage> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No devices available.'));
+            return Center(child: Text('Устройств нет.'));
           }
 
           final devices = snapshot.data!.docs;
@@ -75,7 +86,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Type: ${device['device_type']}',
+                          'Тип: ${device['device_type']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -83,7 +94,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Location: ${device['location']}',
+                          'Локация: ${device['location']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -91,7 +102,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Serial Number: ${device['serial_number']}',
+                          'Серийный номер: ${device['serial_number']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -99,7 +110,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Manufacturer: ${device['manufacturer']}',
+                          'Производитель: ${device['manufacturer']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -107,7 +118,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Purchase Date: ${device['purchase_date']}',
+                          'Дата покупки: ${device['purchase_date']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -115,7 +126,7 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'By: ${device['author']}',
+                          'Добавил: ${device['author']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -123,14 +134,11 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'State: ${device['state']}',
+                          'Статус: ${texts[device['state']]}',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color:
-                                device['state'] == 'active'
-                                    ? Colors.green
-                                    : Colors.red,
+                            color: colors[device['state']],
                           ),
                         ),
                         Row(
@@ -161,7 +169,7 @@ class _AdminPageState extends State<AdminPage> {
                   ),
                 );
               }
-              return SizedBox.shrink(); // Hide non-'wait' state devices
+              return SizedBox.shrink(); // Скрыть устройства не в состоянии "ожидание"
             },
           );
         },

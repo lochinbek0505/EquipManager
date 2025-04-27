@@ -1,3 +1,4 @@
+import 'package:equip_manager/user/AuthService.dart';
 import 'package:equip_manager/user/DevicePage.dart';
 import 'package:flutter/material.dart';
 
@@ -12,19 +13,39 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final FirebaseService _firebaseService = FirebaseService();
+  final AuthService authService = AuthService();
+  var colors = {
+    "reject": Colors.red,
 
+    "wait": Colors.yellowAccent,
+    "active": Colors.green,
+  };
+  var texts = {
+    "reject": "Отклоненный",
+
+    "wait": "Ожидающий",
+    "active": "Одобренный",
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.blue,
         title: Text(
-          'Device List',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          "Список устройств",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: () async {
+              authService.signOut(context);
+
               // await authService.dispose();
             },
           ),
@@ -78,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Type: ${device['device_type']}',
+                          'Тип: ${device['device_type']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -86,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Location: ${device['location']}',
+                          'Расположение: ${device['location']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -94,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Serial Number: ${device['serial_number']}',
+                          'Серийный номер: ${device['serial_number']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -102,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Manufacturer: ${device['manufacturer']}',
+                          'Производитель: ${device['manufacturer']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -110,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Purchase Date: ${device['purchase_date']}',
+                          'Дата покупки: ${device['purchase_date']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -118,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'By: ${device['author']}',
+                          'Добавил: ${device['author']}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[700],
@@ -126,14 +147,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          'State: ${device['state']}',
+                          'Состояние: ${texts[device['state']]}',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color:
-                                device['state'] == 'Active'
-                                    ? Colors.green
-                                    : Colors.red,
+                            color: colors[device['state']],
                           ),
                         ),
                       ],

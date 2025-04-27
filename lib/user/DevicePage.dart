@@ -68,7 +68,15 @@ class _DevicePageState extends State<DevicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Device')),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: Text(
+          'Добавить устройство',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -76,60 +84,60 @@ class _DevicePageState extends State<DevicePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTextField(
-                label: 'Device Name',
+                label: 'Название устройства',
                 controller: _nameController,
-                hint: 'Enter device name',
+                hint: 'Введите название устройства',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Device Type',
+                label: 'Тип устройства',
                 controller: _typeController,
-                hint: 'Enter device type',
+                hint: 'Введите тип устройства',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Model',
+                label: 'Модель',
                 controller: _modelController,
-                hint: 'Enter model',
+                hint: 'Введите модель',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Location',
+                label: 'Местоположение',
                 controller: _locationController,
-                hint: 'Enter location',
+                hint: 'Введите местоположение',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Serial Number',
+                label: 'Серийный номер',
                 controller: _serialNumberController,
-                hint: 'Enter serial number',
+                hint: 'Введите серийный номер',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Manufacturer',
+                label: 'Производитель',
                 controller: _manufacturerController,
-                hint: 'Enter manufacturer',
+                hint: 'Введите производителя',
               ),
               SizedBox(height: 16),
 
               _buildTextField(
-                label: 'Purchase Date',
+                label: 'Дата покупки',
                 controller: _purchaseDateController,
-                hint: 'Enter purchase date (e.g., 2022-01-01)',
+                hint: 'Введите дату покупки (например, 2022-01-01)',
               ),
               SizedBox(height: 20),
 
-              // Image Picker Button
+              // Кнопка выбора изображения
               Center(
                 child: ElevatedButton(
                   onPressed: _pickImage,
                   child: Text(
-                    'Pick Device Image',
+                    'Выбрать изображение устройства',
                     style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -143,7 +151,7 @@ class _DevicePageState extends State<DevicePage> {
               ),
               SizedBox(height: 20),
 
-              // Display selected image
+              // Отображение выбранного изображения
               _image != null
                   ? Center(
                     child: Image.file(
@@ -156,16 +164,16 @@ class _DevicePageState extends State<DevicePage> {
                   : Container(
                     height: 200,
                     color: Colors.grey[300],
-                    child: Center(child: Text('No image selected')),
+                    child: Center(child: Text('Изображение не выбрано')),
                   ),
               SizedBox(height: 20),
 
-              // Add Device Button
+              // Кнопка добавления устройства
               Center(
                 child: ElevatedButton(
                   onPressed: _addDevice,
                   child: Text(
-                    'Add Device',
+                    'Добавить устройство',
                     style: TextStyle(color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
