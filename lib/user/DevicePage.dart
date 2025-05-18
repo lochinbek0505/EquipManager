@@ -158,7 +158,6 @@ class _DevicePageState extends State<DevicePage> {
                       _image!,
                       height: 200,
                       width: 200,
-                      fit: BoxFit.cover,
                     ),
                   )
                   : Container(

@@ -112,112 +112,95 @@ class _HomePageState extends State<HomePage> {
           final devices = snapshot.data!.docs;
           var fio = "${data['firstName']} ${data['lastName']}";
 
+          // Foydalanuvchiga tegishli qurilmalarni filtrlaymiz
+          final userDevices = devices.where((device) => device['author'] == fio).toList();
+
+          if (userDevices.isEmpty) {
+            return Center(child: Text('No devices found for this user.'));
+          }
+
           return ListView.builder(
-            itemCount: devices.length,
+            itemCount: userDevices.length,
             itemBuilder: (context, index) {
-              final device = devices[index];
-              if (fio == device['author']) {
-                return GestureDetector(
-                  onTap: () {
-                    showQrCodeDialog(
-                      context,
-                      "${device['device_name']}:${device['serial_number']}:${device['manufacturer']}",
-                    );
-                  },
-                  child: Card(
-                    elevation: 8,
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              device['device_image'],
-                              width: double.infinity,
-                              height: 150,
-                            ),
+              final device = userDevices[index];
+              return GestureDetector(
+                onTap: () {
+                  showQrCodeDialog(
+                    context,
+                    "${device['device_name']}:${device['serial_number']}:${device['manufacturer']}",
+                  );
+                },
+                child: Card(
+                  elevation: 8,
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.network(
+                            device['device_image'],
+                            width: double.infinity,
+                            height: 150,
                           ),
-                          Text(
-                            device['device_name'],
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          device['device_name'],
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Тип: ${device['device_type']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Тип: ${device['device_type']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Расположение: ${device['location']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Серийный номер: ${device['serial_number']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Производитель: ${device['manufacturer']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Дата покупки: ${device['purchase_date']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Добавил: ${device['author']}',
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Состояние: ${texts[device['state']]}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: colors[device['state']],
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Расположение: ${device['location']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Серийный номер: ${device['serial_number']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Производитель: ${device['manufacturer']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Дата покупки: ${device['purchase_date']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Добавил: ${device['author']}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Состояние: ${texts[device['state']]}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: colors[device['state']],
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                );
-              }
+                ),
+              );
             },
           );
         },
-      ),
+      )
+      ,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {

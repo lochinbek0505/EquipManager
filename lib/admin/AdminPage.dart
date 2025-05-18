@@ -123,7 +123,6 @@ class _AdminPageState extends State<AdminPage> {
                               device['device_image'],
                               width: double.infinity,
                               height: 150,
-                              fit: BoxFit.cover,
                             ),
                           ),
                           SizedBox(height: 8),

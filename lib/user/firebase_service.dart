@@ -87,6 +87,9 @@ class FirebaseService {
       print('Error updating device state: $e');
     }
   }
+  Future<void> deleteDevice(String deviceId) async {
+    await FirebaseFirestore.instance.collection('devices').doc(deviceId).delete();
+  }
 
   // Get Device List from Firestore
   Stream<QuerySnapshot> getDevices() {
